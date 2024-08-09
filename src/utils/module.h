@@ -111,9 +111,9 @@ public:
 #endif
 
 		for(auto& section : m_sections)
-			Message("Section %s base: 0x%p | size: %d\n", section.m_szName.c_str(), section.m_pBase, section.m_iSize);
+			printf("Section %s base: 0x%p | size: %d\n", section.m_szName.c_str(), section.m_pBase, section.m_iSize);
 
-		Message("Initialized module %s base: 0x%p | size: %d\n", m_pszModule, m_base, m_size);
+		printf("Initialized module %s base: 0x%p | size: %d\n", m_pszModule, m_base, m_size);
 	}
 
 	~CModule()
