@@ -86,7 +86,7 @@ private:
 class CModule
 {
 public:
-	CModule(const char* path, const char* module) :
+	CModule(const char *path, const char *module) :
 		m_pszModule(module), m_pszPath(path)
 	{
 		char szModule[MAX_PATH];
@@ -102,18 +102,12 @@ public:
 		MODULEINFO m_hModuleInfo;
 		GetModuleInformation(GetCurrentProcess(), m_hModule, &m_hModuleInfo, sizeof(m_hModuleInfo));
 
-		m_base = (void*)m_hModuleInfo.lpBaseOfDll;
+		m_base = (void *)m_hModuleInfo.lpBaseOfDll;
 		m_size = m_hModuleInfo.SizeOfImage;
-		InitializeSections();
 #else
-		if (int e = GetModuleInformation(m_hModule, &m_base, &m_size, m_sections))
+		if (int e = GetModuleInformation(m_hModule, &m_base, &m_size))
 			Error("Failed to get module info for %s, error %d\n", szModule, e);
 #endif
-
-		for (auto& section : m_sections)
-			printf("Section %s base: 0x%p | size: %d\n", section.m_szName.c_str(), section.m_pBase, section.m_iSize);
-
-		printf("Initialized module %s base: 0x%p | size: %d\n", m_pszModule, m_base, m_size);
 	}
 
 	~CModule()
