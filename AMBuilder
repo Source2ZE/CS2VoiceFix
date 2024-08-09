@@ -16,6 +16,9 @@ for sdk_target in MMSPlugin.sdk_targets:
 
   binary = MMSPlugin.HL2Library(builder, cxx, MMSPlugin.plugin_name, sdk)
 
+  if binary.compiler.behavior == 'gcc':
+    binary.compiler.cxxflags += ['-Wno-invalid-offsetof']
+
   target_folder = 'Debug' if builder.options.debug else 'Release'
 
   if binary.compiler.target.platform == 'linux':
