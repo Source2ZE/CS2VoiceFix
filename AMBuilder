@@ -34,7 +34,7 @@ for sdk_target in MMSPlugin.sdk_targets:
     binary.sources += ['src/utils/plat_win.cpp']
 
   binary.sources += [
-    'src/multiaddonmanager.cpp'
+    'src/extension.cpp'
   ]
   
   binary.compiler.cxxincludes += [
