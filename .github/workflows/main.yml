@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - main
+    paths-ignore:
+    - LICENSE
+    - README.md
+  pull_request:
+    paths-ignore:
+    - LICENSE
+    - README.md
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: windows-latest
+          - os: ubuntu-latest
+            container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: CS2VoiceFix
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Checkout Metamod
+        uses: actions/checkout@v4
+        with:
+          repository: alliedmodders/metamod-source
+          ref: master
+          path: mmsource-2.0
+          submodules: recursive
+          
+      - name: Checkout HL2SDK
+        uses: actions/checkout@v4
+        with:
+          repository: alliedmodders/hl2sdk
+          ref: cs2
+          path: hl2sdk-cs2
+
+      - name: Checkout AMBuild
+        uses: actions/checkout@v4
+        with:
+          repository: alliedmodders/ambuild
+          path: ambuild
+
+      - name: Install AMBuild
+        run: |
+          cd ambuild && python setup.py install && cd ..
+
+      - name: Build
+        working-directory: CS2VoiceFix
+        shell: bash
+        run: |
+          mkdir build && cd build
+          python ../configure.py --enable-optimize --symbol-files --sdks cs2
+          ambuild
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}
+          path: CS2VoiceFix/build/package
