@@ -49,7 +49,7 @@ target("CS2VoiceFix")
             SDK_PATH.."/lib/linux64/mathlib.a",
         })
 
-        add_cxxflags("-lstdc++")
+        add_cxxflags("-lstdc++", "-Wno-register")
     end
 
     add_linkdirs({

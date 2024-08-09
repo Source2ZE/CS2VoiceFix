@@ -182,7 +182,7 @@ const char *CS2VoiceFix::GetLicense()
 
 const char *CS2VoiceFix::GetVersion()
 {
-	return "1.0.0";
+	return "1.0.1";
 }
 
 const char *CS2VoiceFix::GetDate()
