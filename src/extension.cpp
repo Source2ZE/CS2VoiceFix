@@ -47,10 +47,10 @@ SH_DECL_HOOK6_void(IServerGameClients, OnClientConnected, SH_NOATTRIB, 0, CPlaye
 
 #ifdef WIN32
 // WINDOWS
-SH_DECL_MANUALHOOK3(SendNetMessage, 15, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
+SH_DECL_MANUALHOOK2(SendNetMessage, 15, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
 #else
 // LINUX
-SH_DECL_MANUALHOOK3(SendNetMessage, 16, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
+SH_DECL_MANUALHOOK2(SendNetMessage, 16, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
 #endif
 
 CGameEntitySystem* GameEntitySystem()
