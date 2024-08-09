@@ -34,7 +34,7 @@ public:
 	bool Unpause(char *error, size_t maxlen);
 	void AllPluginsLoaded();
 public: //hooks
-	bool Hook_SendNetMessage(INetworkMessageInternal* pMessage, CNetMessage* pData, NetChannelBufType_t bufType);
+	bool Hook_SendNetMessage(CNetMessage* pData, NetChannelBufType_t bufType);
 	void Hook_OnClientConnected(CPlayerSlot slot, const char* pszName, uint64 xuid, const char* pszNetworkID, const char* pszAddress, bool bFakePlayer);
 	void OnLevelInit( char const *pMapName,
 				 char const *pMapEntities,

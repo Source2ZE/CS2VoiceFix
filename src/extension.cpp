@@ -47,10 +47,10 @@ SH_DECL_HOOK6_void(IServerGameClients, OnClientConnected, SH_NOATTRIB, 0, CPlaye
 
 #ifdef WIN32
 // WINDOWS
-SH_DECL_MANUALHOOK3(SendNetMessage, 15, 0, 0, bool, INetworkMessageInternal*, CNetMessage*, NetChannelBufType_t);
+SH_DECL_MANUALHOOK2(SendNetMessage, 15, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
 #else
 // LINUX
-SH_DECL_MANUALHOOK3(SendNetMessage, 16, 0, 0, bool, INetworkMessageInternal*, CNetMessage*, NetChannelBufType_t);
+SH_DECL_MANUALHOOK2(SendNetMessage, 16, 0, 0, bool, CNetMessage*, NetChannelBufType_t);
 #endif
 
 CGameEntitySystem* GameEntitySystem()
@@ -113,11 +113,11 @@ bool CS2VoiceFix::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, b
 
 uint64_t g_playerIds[64];
 
-bool CS2VoiceFix::Hook_SendNetMessage(INetworkMessageInternal* pMessage, CNetMessage* pData, NetChannelBufType_t bufType)
+bool CS2VoiceFix::Hook_SendNetMessage(CNetMessage* pData, NetChannelBufType_t bufType)
 {
 	CServerSideClient* client = META_IFACEPTR(CServerSideClient);
 
-	NetMessageInfo_t* info = pMessage->GetNetMessageInfo();
+	NetMessageInfo_t* info = pData->GetNetMessage()->GetNetMessageInfo();
 	if (info)
 	{
 		if (info->m_MessageId == SVC_Messages::svc_VoiceData)
