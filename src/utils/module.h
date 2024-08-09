@@ -86,8 +86,7 @@ private:
 class CModule
 {
 public:
-	CModule(const char *path, const char *module) :
-		m_pszModule(module), m_pszPath(path)
+	CModule(const char *path, const char *module) : m_pszModule(module), m_pszPath(path)
 	{
 		char szModule[MAX_PATH];
 
@@ -96,7 +95,9 @@ public:
 		m_hModule = dlmount(szModule);
 
 		if (!m_hModule)
+		{
 			Error("Could not find %s\n", szModule);
+		}
 
 #ifdef _WIN32
 		MODULEINFO m_hModuleInfo;
@@ -107,13 +108,10 @@ public:
 		InitializeSections();
 #else
 		if (int e = GetModuleInformation(m_hModule, &m_base, &m_size, m_sections))
+		{
 			Error("Failed to get module info for %s, error %d\n", szModule, e);
+		}
 #endif
-
-		for(auto& section : m_sections)
-			printf("Section %s base: 0x%p | size: %d\n", section.m_szName.c_str(), section.m_pBase, section.m_iSize);
-
-		printf("Initialized module %s base: 0x%p | size: %d\n", m_pszModule, m_base, m_size);
 	}
 
 	~CModule()
